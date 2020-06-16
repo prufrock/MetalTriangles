@@ -50,6 +50,7 @@ class Renderer: NSObject {
 }
 
 extension Renderer: MTKViewDelegate {
+        
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
 
     }
@@ -64,10 +65,12 @@ extension Renderer: MTKViewDelegate {
         
         renderEncoder.setRenderPipelineState(pipelineState)
         
+        timer += 0.007
+        
         var vertices: [SIMD3<Float>] = [
-          [-0.7,  0.8,   1],
+          [-0.7,  0.4,   1],
           [-0.7, -0.4,   1],
-          [ 0.4,  0.2,   1]
+          [ 0.4,  0.4,   1]
         ]
         var matrix = matrix_identity_float4x4
 
@@ -78,9 +81,11 @@ extension Renderer: MTKViewDelegate {
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         
         var purple = SIMD4<Float>(1, 0.5, 1, 1)
+        renderEncoder.setFragmentBytes(&timer, length: MemoryLayout<Float>.stride, index: 0)
         renderEncoder.setFragmentBytes(&purple,
                                        length: MemoryLayout<SIMD4<Float>>.stride,
-                                       index: 0)
+                                       index: 1)
+
         renderEncoder.setVertexBytes(&matrix,
                                      length: MemoryLayout<float4x4>.stride,
                                      index: 1)

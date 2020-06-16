@@ -26,6 +26,14 @@ vertex VertexOut vertex_main(constant float3 *vertices [[buffer(0)]],
     return vertex_out;
 }
 
-fragment float4 fragment_main(constant float4 &color [[buffer(0)]]) {
-    return color;
+fragment float4 fragment_main(constant float &timer [[buffer(0)]],
+                              constant float4 &color [[buffer(1)]]) {
+    
+    float pct = abs(sin(timer));
+    
+    float4 colorA = float4(0.0, 0.0, 0.7, 1);
+    float4 colorB = float4(0.0, 0.7, 0.0, 1);
+
+    
+    return mix(colorA, colorB, pct);
 }
