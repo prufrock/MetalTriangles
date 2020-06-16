@@ -27,6 +27,20 @@ class Renderer: NSObject {
         Renderer.commandQueue = commandQueue
         metalView.device = device
         
+        let library = device.makeDefaultLibrary()
+        let vertexFunction = library?.makeFunction(name: "vertex_main")
+        let fragmentFunction = library?.makeFunction(name: "fragment_main")
+        
+        let descriptor = MTLRenderPipelineDescriptor()
+        descriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+        descriptor.vertexFunction = vertexFunction
+        descriptor.fragmentFunction = fragmentFunction
+        do {
+          pipelineState = try device.makeRenderPipelineState(descriptor: descriptor)
+        } catch let error {
+          fatalError(error.localizedDescription)
+        }
+        
         super.init()
         metalView.clearColor = MTLClearColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0)
         metalView.delegate = self

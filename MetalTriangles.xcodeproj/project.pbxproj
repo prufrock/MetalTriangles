@@ -14,6 +14,7 @@
 		40A2B81B2498508800241DAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40A2B81A2498508800241DAD /* Assets.xcassets */; };
 		40A2B81E2498508800241DAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40A2B81C2498508800241DAD /* LaunchScreen.storyboard */; };
 		40A2B8262498557200241DAD /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A2B8252498557200241DAD /* Renderer.swift */; };
+		40A2B82924985AB300241DAD /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 40A2B82824985AB300241DAD /* Shaders.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		40A2B81D2498508800241DAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		40A2B81F2498508800241DAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40A2B8252498557200241DAD /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		40A2B82824985AB300241DAD /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		40A2B8102498508600241DAD /* MetalTriangles */ = {
 			isa = PBXGroup;
 			children = (
+				40A2B82724985A9800241DAD /* Resources */,
 				40A2B8112498508600241DAD /* AppDelegate.swift */,
 				40A2B8132498508600241DAD /* SceneDelegate.swift */,
 				40A2B8152498508600241DAD /* ViewController.swift */,
@@ -68,6 +71,14 @@
 				40A2B8252498557200241DAD /* Renderer.swift */,
 			);
 			path = MetalTriangles;
+			sourceTree = "<group>";
+		};
+		40A2B82724985A9800241DAD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				40A2B82824985AB300241DAD /* Shaders.metal */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +156,7 @@
 				40A2B8162498508600241DAD /* ViewController.swift in Sources */,
 				40A2B8122498508600241DAD /* AppDelegate.swift in Sources */,
 				40A2B8142498508600241DAD /* SceneDelegate.swift in Sources */,
+				40A2B82924985AB300241DAD /* Shaders.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
