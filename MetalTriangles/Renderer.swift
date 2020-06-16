@@ -61,6 +61,34 @@ extension Renderer: MTKViewDelegate {
             let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
                 return
         }
+        
+        renderEncoder.setRenderPipelineState(pipelineState)
+        
+        var vertices: [SIMD3<Float>] = [
+          [-0.7,  0.8,   1],
+          [-0.7, -0.4,   1],
+          [ 0.4,  0.2,   1]
+        ]
+        var matrix = matrix_identity_float4x4
+
+        let vertexBuffer = Renderer.device.makeBuffer(bytes: &vertices,
+                                                      length: MemoryLayout<SIMD3<Float>>.stride * vertices.count,
+                                                      options: [])
+
+        renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        
+        var purple = SIMD4<Float>(1, 0.5, 1, 1)
+        renderEncoder.setFragmentBytes(&purple,
+                                       length: MemoryLayout<SIMD4<Float>>.stride,
+                                       index: 0)
+        renderEncoder.setVertexBytes(&matrix,
+                                     length: MemoryLayout<float4x4>.stride,
+                                     index: 1)
+        renderEncoder.drawPrimitives(type: .triangle,
+                                     vertexStart: 0,
+                                     vertexCount: vertices.count)
+        
+        
         renderEncoder.endEncoding()
         guard let drawable = view.currentDrawable else {
             return
