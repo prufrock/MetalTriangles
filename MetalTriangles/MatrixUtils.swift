@@ -1,10 +1,6 @@
-//
-//  MatrixUtils.swift
-//  MetalTriangles
-//
-//  Created by David Kanenwisher on 6/21/20.
-//  Copyright © 2020 dkanen. All rights reserved.
-//
+// I don't quite understand all of the math here yet so I
+// adapated a lot of these from "Metal Programming Guide: Tutorial and Reference Via Swift"
+// by Janie Clayton and from Metal by Tutorials by By Caroline Begbie & Marius Horga
 
 import Foundation
 
@@ -50,6 +46,18 @@ extension float4x4 {
             * float4x4(rotateYby: radians.y)
             * float4x4(rotateZby: radians.z)
     }
+    
+    init(projectionFov: Radians, aspectRatio: Float, nearPlane: Float, farPlane: Float) {
+        let yScale = 1 / tan(projectionFov * 0.5)
+        let xScale = yScale / aspectRatio
+        let zScale = farPlane / (farPlane - nearPlane)
+        let X = SIMD4<Float>(xScale,  0,  0,  0)
+        let Y = SIMD4<Float>(0,  yScale,  0,  0)
+        let Z = SIMD4<Float>(0,  0,  zScale, 1)
+        let W = SIMD4<Float>(0,  0,  zScale * -nearPlane,  0)
+        self.init()
+        columns = (X, Y, Z, W)
+    }
 }
 
 typealias Degrees = Float
@@ -59,3 +67,5 @@ extension Degrees {
         (self / 180) * Float.pi
     }
 }
+
+typealias Radians = Float
