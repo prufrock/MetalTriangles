@@ -8,6 +8,7 @@
 
 #include <metal_stdlib>
 using namespace metal;
+#import "Common.h"
 
 
 struct VertexOut {
@@ -16,19 +17,19 @@ struct VertexOut {
 };
 
 vertex VertexOut vertex_main(constant float3 *vertices [[buffer(0)]],
-                             constant float4x4 &matrix [[buffer(1)]],
+                             constant Uniforms &uniforms [[buffer(1)]],
                              uint id [[vertex_id]]) {
     VertexOut vertex_out {
-        .position = matrix * float4(vertices[id], 1),
+        .position = uniforms.worldSpaceMatrix * float4(vertices[id], 1),
         .point_size = 20.0
     };
     return vertex_out;
 }
 
-fragment float4 fragment_main(constant float &timer [[buffer(0)]],
+fragment float4 fragment_main(constant Uniforms &uniforms [[buffer(0)]],
                               constant float4 &color [[buffer(1)]]) {
     
-    float pct = abs(sin(timer));
+    float pct = abs(sin(uniforms.timer));
     
     float4 colorA = float4(0.0, 0.0, 0.7, 1); //blue
     float4 colorB = float4(0.0, 0.7, 0.0, 1); //green

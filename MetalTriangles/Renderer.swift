@@ -13,6 +13,7 @@ class Renderer: NSObject {
     static var commandQueue: MTLCommandQueue!
     var vertexBuffer: MTLBuffer!
     var pipelineState: MTLRenderPipelineState!
+    var uniforms = Uniforms()
     
     var timer: Float = 0
     
@@ -45,6 +46,14 @@ class Renderer: NSObject {
         metalView.delegate = self
         
         mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
+        
+        initWorldSpaceMatrix()
+    }
+    
+    func initWorldSpaceMatrix() {
+        let translation = float4x4(translateBy: [0, 0.0, 0])
+        let rotation = float4x4(rotateBy: [0, 0, Degrees(90).radians])
+        uniforms.worldSpaceMatrix = translation * rotation
     }
     
     func rotateWith(timer: Float, transform: matrix_float4x4) -> matrix_float4x4 {
@@ -81,9 +90,6 @@ extension Renderer: MTKViewDelegate {
           [-0.7, -0.4,   1],
           [ 0.4,  0.4,   1]
         ]
-        var matrix = matrix_identity_float4x4
-
-        matrix = self.rotateWith(timer: timer, transform: matrix)
 
         let vertexBuffer = Renderer.device.makeBuffer(bytes: &vertices,
                                                       length: MemoryLayout<SIMD3<Float>>.stride * vertices.count,
@@ -92,13 +98,13 @@ extension Renderer: MTKViewDelegate {
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         
         var purple = SIMD4<Float>(1, 0.5, 1, 1)
-        renderEncoder.setFragmentBytes(&timer, length: MemoryLayout<Float>.stride, index: 0)
+        renderEncoder.setFragmentBytes(&uniforms, length: MemoryLayout<Float>.stride, index: 0)
         renderEncoder.setFragmentBytes(&purple,
                                        length: MemoryLayout<SIMD4<Float>>.stride,
                                        index: 1)
 
-        renderEncoder.setVertexBytes(&matrix,
-                                     length: MemoryLayout<float4x4>.stride,
+        renderEncoder.setVertexBytes(&uniforms,
+                                     length: MemoryLayout<Uniforms>.stride,
                                      index: 1)
         renderEncoder.drawPrimitives(type: .triangle,
                                      vertexStart: 0,

@@ -15,6 +15,7 @@
 		40A2B81E2498508800241DAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40A2B81C2498508800241DAD /* LaunchScreen.storyboard */; };
 		40A2B8262498557200241DAD /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A2B8252498557200241DAD /* Renderer.swift */; };
 		40A2B82924985AB300241DAD /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 40A2B82824985AB300241DAD /* Shaders.metal */; };
+		40D0602A24A04086009BFA3E /* MatrixUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0602924A04086009BFA3E /* MatrixUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,8 @@
 		40A2B81F2498508800241DAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40A2B8252498557200241DAD /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		40A2B82824985AB300241DAD /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		40D0602824A03BCD009BFA3E /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		40D0602924A04086009BFA3E /* MatrixUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +72,7 @@
 				40A2B81C2498508800241DAD /* LaunchScreen.storyboard */,
 				40A2B81F2498508800241DAD /* Info.plist */,
 				40A2B8252498557200241DAD /* Renderer.swift */,
+				40D0602924A04086009BFA3E /* MatrixUtils.swift */,
 			);
 			path = MetalTriangles;
 			sourceTree = "<group>";
@@ -76,6 +80,7 @@
 		40A2B82724985A9800241DAD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				40D0602824A03BCD009BFA3E /* Common.h */,
 				40A2B82824985AB300241DAD /* Shaders.metal */,
 			);
 			path = Resources;
@@ -154,6 +159,7 @@
 			files = (
 				40A2B8262498557200241DAD /* Renderer.swift in Sources */,
 				40A2B8162498508600241DAD /* ViewController.swift in Sources */,
+				40D0602A24A04086009BFA3E /* MatrixUtils.swift in Sources */,
 				40A2B8122498508600241DAD /* AppDelegate.swift in Sources */,
 				40A2B8142498508600241DAD /* SceneDelegate.swift in Sources */,
 				40A2B82924985AB300241DAD /* Shaders.metal in Sources */,
@@ -309,6 +315,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dkanen.MetalTriangles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = MetalTriangles/Resources/Common.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -327,6 +334,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dkanen.MetalTriangles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = MetalTriangles/Resources/Common.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
