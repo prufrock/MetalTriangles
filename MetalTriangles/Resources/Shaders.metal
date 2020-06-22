@@ -20,7 +20,7 @@ vertex VertexOut vertex_main(constant float3 *vertices [[buffer(0)]],
                              constant Uniforms &uniforms [[buffer(1)]],
                              uint id [[vertex_id]]) {
     VertexOut vertex_out {
-        .position = uniforms.projectionMatrix * uniforms.worldSpaceMatrix * float4(vertices[id], 1),
+        .position = uniforms.projectionMatrix * uniforms.cameraSpaceMatrix * uniforms.worldSpaceMatrix * float4(vertices[id], 1),
         .point_size = 20.0
     };
     return vertex_out;

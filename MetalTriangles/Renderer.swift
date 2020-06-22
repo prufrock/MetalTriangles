@@ -48,6 +48,7 @@ class Renderer: NSObject {
         mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
         
         initWorldSpaceMatrix()
+        initCameraSpaceMatrix()
     }
     
     func initWorldSpaceMatrix() {
@@ -56,9 +57,12 @@ class Renderer: NSObject {
         uniforms.worldSpaceMatrix = translation * rotation
     }
     
+    func initCameraSpaceMatrix() {
+        uniforms.cameraSpaceMatrix = float4x4(translateBy: [0.3, 0, 0]).inverse
+    }
+    
     func updateProjectionMatrix(_ metalView: MTKView) {
         uniforms.projectionMatrix = float4x4(projectionFov: Degrees(45).radians, aspectRatio: aspect(metalView), nearPlane: 0.1, farPlane: 100)
-
     }
     
     func aspect(_ metalView: MTKView) -> Float {
@@ -96,9 +100,9 @@ extension Renderer: MTKViewDelegate {
         timer += 0.007
         
         var vertices: [SIMD3<Float>] = [
-            [-0.7,  0.4,   20.0],
-            [-0.7, -0.4,   20.0],
-            [ 0.4,  0.4,   20.0]
+            [0, 0, 10.0],
+            [0, -0.5, 10.0],
+            [1.0, -0.5, 10.0]
         ]
 
         let vertexBuffer = Renderer.device.makeBuffer(bytes: &vertices,
