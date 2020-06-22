@@ -82,9 +82,8 @@ extension Renderer: MTKViewDelegate {
           [ 0.4,  0.4,   1]
         ]
         var matrix = matrix_identity_float4x4
-        
+
         matrix = self.rotateWith(timer: timer, transform: matrix)
-        
 
         let vertexBuffer = Renderer.device.makeBuffer(bytes: &vertices,
                                                       length: MemoryLayout<SIMD3<Float>>.stride * vertices.count,
