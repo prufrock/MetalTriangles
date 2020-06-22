@@ -11,7 +11,6 @@ import MetalKit
 class Renderer: NSObject {
     static var device: MTLDevice!
     static var commandQueue: MTLCommandQueue!
-    var mesh: MTKMesh!
     var vertexBuffer: MTLBuffer!
     var pipelineState: MTLRenderPipelineState!
     
@@ -47,6 +46,16 @@ class Renderer: NSObject {
         
         mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
     }
+    
+    func rotateWith(timer: Float, transform: matrix_float4x4) -> matrix_float4x4 {
+        
+        var rotated = transform
+        let angle = Float.pi / (timer.truncatingRemainder(dividingBy: 10.0))
+        rotated.columns.0 = [cos(angle), -sin(angle), 0, 0]
+        rotated.columns.1 = [sin(angle), cos(angle), 0, 0]
+        
+        return rotated
+    }
 }
 
 extension Renderer: MTKViewDelegate {
@@ -73,6 +82,9 @@ extension Renderer: MTKViewDelegate {
           [ 0.4,  0.4,   1]
         ]
         var matrix = matrix_identity_float4x4
+        
+        matrix = self.rotateWith(timer: timer, transform: matrix)
+        
 
         let vertexBuffer = Renderer.device.makeBuffer(bytes: &vertices,
                                                       length: MemoryLayout<SIMD3<Float>>.stride * vertices.count,
