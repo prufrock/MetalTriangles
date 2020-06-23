@@ -95,35 +95,13 @@ extension Renderer: MTKViewDelegate {
                 return
         }
         
-        renderEncoder.setRenderPipelineState(pipelineState)
-        
         timer += 0.007
         
-        var vertices: [SIMD3<Float>] = [
-            [0, 0, 10.0],
-            [0, -0.5, 10.0],
-            [1.0, -0.5, 10.0]
-        ]
-
-        let vertexBuffer = Renderer.device.makeBuffer(bytes: &vertices,
-                                                      length: MemoryLayout<SIMD3<Float>>.stride * vertices.count,
-                                                      options: [])
-
-        renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderEncoder.setRenderPipelineState(pipelineState)
         
-        var purple = SIMD4<Float>(1, 0.5, 1, 1)
-        renderEncoder.setFragmentBytes(&uniforms, length: MemoryLayout<Float>.stride, index: 0)
-        renderEncoder.setFragmentBytes(&purple,
-                                       length: MemoryLayout<SIMD4<Float>>.stride,
-                                       index: 1)
-
-        renderEncoder.setVertexBytes(&uniforms,
-                                     length: MemoryLayout<Uniforms>.stride,
-                                     index: 1)
-        renderEncoder.drawPrimitives(type: .triangle,
-                                     vertexStart: 0,
-                                     vertexCount: vertices.count)
+        renderPurpleTriangle(renderEncoder)
         
+        renderGreenTriangle(renderEncoder)
         
         renderEncoder.endEncoding()
         guard let drawable = view.currentDrawable else {
@@ -131,5 +109,48 @@ extension Renderer: MTKViewDelegate {
         }
         commandBuffer.present(drawable)
         commandBuffer.commit()
+    }
+    
+    func renderPurpleTriangle(_ renderEncoder: MTLRenderCommandEncoder) {
+        
+        var purple = SIMD4<Float>(1, 0.5, 1, 1)
+        var vertices: [SIMD3<Float>] = [
+            [0, 0, 1.0],
+            [0, -0.5, 1.0],
+            [1.0, -0.5, 1.0]
+        ]
+
+        render(vertices: &vertices, with: renderEncoder, color: &purple)
+    }
+    
+    func renderGreenTriangle(_ renderEncoder: MTLRenderCommandEncoder) {
+        var green = SIMD4<Float>(0, 0.7, 0, 1)
+        var vertices: [SIMD3<Float>] = [
+            [-1.0, 0.5, 1.0],
+            [-1.0, 0, 1.0],
+            [0, 0, 1.0]
+        ]
+        
+        render(vertices: &vertices, with: renderEncoder, color: &green)
+    }
+    
+    func render(vertices: inout [SIMD3<Float>], with renderEncoder: MTLRenderCommandEncoder, color: inout SIMD4<Float>) {
+        let vertexBuffer = Renderer.device.makeBuffer(bytes: &vertices,
+                                                      length: MemoryLayout<SIMD3<Float>>.stride * vertices.count,
+                                                      options: [])
+        
+        renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        
+        renderEncoder.setFragmentBytes(&uniforms, length: MemoryLayout<Float>.stride, index: 0)
+        renderEncoder.setFragmentBytes(&color,
+                                       length: MemoryLayout<SIMD4<Float>>.stride,
+                                       index: 1)
+        
+        renderEncoder.setVertexBytes(&uniforms,
+                                     length: MemoryLayout<Uniforms>.stride,
+                                     index: 1)
+        renderEncoder.drawPrimitives(type: .triangle,
+                                     vertexStart: 0,
+                                     vertexCount: vertices.count)
     }
 }

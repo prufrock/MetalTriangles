@@ -20,7 +20,7 @@ vertex VertexOut vertex_main(constant float3 *vertices [[buffer(0)]],
                              constant Uniforms &uniforms [[buffer(1)]],
                              uint id [[vertex_id]]) {
     VertexOut vertex_out {
-        .position = uniforms.projectionMatrix * uniforms.cameraSpaceMatrix * uniforms.worldSpaceMatrix * float4(vertices[id], 1),
+        .position = float4(vertices[id], 1),
         .point_size = 20.0
     };
     return vertex_out;
@@ -29,11 +29,5 @@ vertex VertexOut vertex_main(constant float3 *vertices [[buffer(0)]],
 fragment float4 fragment_main(constant Uniforms &uniforms [[buffer(0)]],
                               constant float4 &color [[buffer(1)]]) {
     
-    float pct = abs(sin(uniforms.timer));
-    
-    float4 colorA = float4(0.0, 0.0, 0.7, 1); //blue
-    float4 colorB = float4(0.0, 0.7, 0.0, 1); //green
-
-    
-    return colorB;
+    return color;
 }
